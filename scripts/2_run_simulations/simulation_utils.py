@@ -6,7 +6,7 @@ import os
 import vbjax as vb
 import gast_model as gm
 
-PROJECT_DIR = os.path.abspath(os.path.join(os.getcwd(), '..'))
+PROJECT_DIR = os.path.abspath(os.path.join(os.getcwd(), '../..'))
 RESOURCES_DIR = os.path.join(PROJECT_DIR, 'resources')
 
 def stack_connectomes(W):

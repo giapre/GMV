@@ -1,0 +1,31 @@
+import os
+import glob
+
+configfile: "config.yaml"
+
+PATIENTS_DIR = config["patients_dir"]
+RESULTS_DIR = config["results_dir"]
+
+SUBJECTS = [
+    os.path.basename(p)
+    for p in glob.glob(os.path.join(PATIENTS_DIR, "sub-*"))
+]
+
+rule all:
+    input:
+        expand(os.path.join(RESULTS_DIR, "{pid}_bold.npy"), pid=SUBJECTS)
+
+
+rule run_simulation:
+    input:
+        lambda wildcards: os.path.join(PATIENTS_DIR, wildcards.pid)
+    output:
+        os.path.join(RESULTS_DIR, "{pid}_bold.npy")
+    threads: 1
+    shell:
+        """
+        python run_simulation.py \
+            {wildcards.pid} \
+            {input} \
+            {output}
+        """
