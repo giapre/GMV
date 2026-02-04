@@ -32,6 +32,12 @@ def get_raw_thickness(RAW_DATA_DIR):
     return gmv
 
 def adjust_thick_template(demo_and_gmv, template):
+    """
+    Transforms the demographics and thickness dataframe in the correct format for Centile software
+    
+    :param demo_and_gmv: dataframe with demographics and thickness information for each patient
+    :param template: the reference template csv from centile softwaer
+    """
     for col in demo_and_gmv.columns:
         for tempcol in template.columns:
             if col.startswith('lh_') & tempcol.startswith('L_'): 
@@ -152,3 +158,155 @@ def dk_extract_gray_matter(regions_lines, stats_folder):
 
     print(f'Elements in the gray matter volume list: {len(gm_region_volume)}')
     return gm_region_volume
+
+# ======================
+# CONNECTOME UTILS
+# ======================
+
+def adjust_dopamine_connectome(sub, weights_file, atlas):
+    """
+    Add the dopaminergic nuclei to the connectome weights and the respective connection weights based on the local D1R density. 
+    Takes a patient weights and returns the corresponding new weights_with_dopa dataframe. 
+    """
+
+    # Load and normalize the weights and the receptors
+    weights = np.loadtxt(weights_file)
+    d1r = pd.read_csv(os.path.join(RESOURCES_DIR, 'Masks', f'{atlas}_D1_D2_5HT2A_receptor_data.csv'), index_col=0)
+    weights = weights/np.max(weights)
+    d1r['D1_density'] = d1r['D1_density'] / d1r['D1_density'].max()
+
+    # Take the correct labels 
+    if atlas == 'dk':
+        lut = prepare_lut()
+        regions_labels_default = lut['Label']
+        
+        weightsdf = pd.DataFrame(data=weights, index=regions_labels_default, columns=regions_labels_default)
+        
+        for region in d1r.index:
+            if 'L.' in region:
+                weightsdf.loc[region, 'L.VTA'] = d1r.loc[region, 'D1_density']/10
+                weightsdf.loc[region, 'L.SN'] = d1r.loc[region,'D1_density']/10
+                weightsdf.loc['L.VTA', region] = d1r.loc[region,'D1_density']/10
+                weightsdf.loc['L.SN', region, ] = d1r.loc[region,'D1_density']/10
+        
+            if 'R.' in region:
+                weightsdf.loc[region, 'R.VTA'] = d1r.loc[region,'D1_density']/10
+                weightsdf.loc[region, 'R.SN'] = d1r.loc[region,'D1_density']/10
+                weightsdf.loc['R.VTA', region] = d1r.loc[region,'D1_density']/10
+                weightsdf.loc['R.SN', region, ] = d1r.loc[region,'D1_density']/10
+                    
+    elif atlas == 'aal2':
+        regions_labels_default = pd.read_csv(f'{RESOURCES_DIR}aal2_default.txt', sep='\t', index_col=0, header=None)[1]
+        weightsdf = pd.DataFrame(data=weights, index=regions_labels_default, columns=regions_labels_default)
+        
+        for i, row in d1r.iterrows():
+            region = str(row['x_labels'])
+            if region.endswith('_L'):
+                weightsdf.loc[region, 'VTA_L'] = row['receptor_density']/10
+                weightsdf.loc[region, 'SN_L'] = row['receptor_density']/10
+                weightsdf.loc['VTA_L', region] = row['receptor_density']/10
+                weightsdf.loc['SN_L', region, ] = row['receptor_density']/10
+        
+            if region.endswith('_R'):
+                weightsdf.loc[region, 'VTA_R'] = row['receptor_density']/10
+                weightsdf.loc[region, 'SN_R'] = row['receptor_density']/10
+                weightsdf.loc['VTA_R', region] = row['receptor_density']/10
+                weightsdf.loc['SN_R', region, ] = row['receptor_density']/10
+    else:
+        print("More atlases will be available soon!")
+        return
+    
+    weightsdf.fillna(0, inplace=True)
+    Ce_mask = pd.read_csv(RESOURCES_DIR+f'/Masks/{atlas}_exc_mask.csv', index_col=0)
+    weightsdf = weightsdf.loc[Ce_mask.index, Ce_mask.columns]
+    print(f"Connectome for patient {sub} has been adjusted")
+    
+    return weightsdf
+
+def adjust_serotonine_connectome(sub, weights_file, atlas):
+    """
+    Add the serotoninergic nuclei to the connectome weights and the respective connection weights based on the local 5HT2a density. 
+    Takes the weights_with_dopa of a patient and returns the corresponding new weights_with_sero_and_dopa dataframe. 
+    """
+    weightsdf = pd.read_csv(weights_file, index_col=0)
+    Ser = pd.read_csv(os.path.join(RESOURCES_DIR, 'Masks', f'{atlas}_D1_D2_5HT2A_receptor_data.csv'), index_col=0)
+    weightsdf = weightsdf/np.max(weightsdf)
+    Ser['5HT2A_density'] = Ser['5HT2A_density'] / Ser['5HT2A_density'].max()
+    print(f'Weights before adjustment: {weightsdf.shape}')
+    
+    if atlas == 'dk':
+        
+        weightsdf.loc['L.RN'] = 0.
+        weightsdf.loc['R.RN'] = 0.
+        weightsdf['L.RN'] = 0.
+        weightsdf['R.RN'] = 0.
+
+        for region in Ser.index:
+            if region.startswith('L.'):
+                weightsdf.loc[region, 'L.RN'] = Ser.loc[region, '5HT2A_density']/10
+                weightsdf.loc['L.RN', region, ] = Ser.loc[region, '5HT2A_density']/10
+        
+            if region.startswith('R.'):
+                weightsdf.loc[region, 'R.RN'] = Ser.loc[region, '5HT2A_density']/10
+                weightsdf.loc['R.RN', region] = Ser.loc[region, '5HT2A_density']/10
+        
+        print(f'Weights after adjustment: {weightsdf.shape}')
+    
+    elif atlas == 'aal2':
+        
+        for i, row in Ser.iterrows():
+            region = str(row['x_labels'])
+            if region.endswith('_L'):
+                weightsdf.loc[region, 'RN_L'] = row['receptor_density']/10
+                weightsdf.loc['RN_L', region, ] = row['receptor_density']/10
+        
+            if region.endswith('_R'):
+                weightsdf.loc[region, 'RN_R'] = row['receptor_density']/10
+                weightsdf.loc['RN_R', region, ] = row['receptor_density']/10
+    
+            if region.startswith('Vermis'):
+                weightsdf.loc[region, 'RN_R'] = row['receptor_density']/10
+                weightsdf.loc['RN_R', region, ] = row['receptor_density']/10
+                weightsdf.loc[region, 'RN_L'] = row['receptor_density']/10
+                weightsdf.loc['RN_L', region, ] = row['receptor_density']/10
+    
+    weightsdf.fillna(0, inplace=True)
+    Ce_mask = pd.read_csv(RESOURCES_DIR+f'/Masks/{atlas}_sero_exc_mask.csv', index_col=0)
+    weightsdf = weightsdf.loc[Ce_mask.index, Ce_mask.columns]
+    print(f"Connectome for patient {sub} has been adjusted")
+    
+    return weightsdf
+
+def adjust_serotonin_lengths(pid, lenghts_file, atlas):
+    """
+    Add the  dopaminergic and serotoninergic nuclei to the connectome lengths and the respective connection lengths copying those of the cerebellum. 
+    Takes the lenghts_file of a patient and returns the corresponding new lengths_with_sero_and_dopa dataframe. 
+    """
+
+    L = np.loadtxt(lenghts_file) # read the file created by the dwi preprocessing pipeline
+
+    # create the dataframe using freesurfer default list of regions
+    lut = prepare_lut()
+    regions_labels_default = lut['Label']
+    Ldf = pd.DataFrame(L, index=regions_labels_default, columns=regions_labels_default)
+
+    # adding the midbrain nuclei (serotonin and dopamine)
+    if atlas=='dk':
+        regions_to_add = ['L.VTA', 'L.SN', 'L.RN', 'R.VTA', 'R.SN', 'R.RN']
+
+        for region in regions_to_add:
+            if region.startswith('L.'):
+                Ldf.loc[region, :] = Ldf.loc['L.CER', :]
+                Ldf.loc[:, region] = Ldf.loc[:, 'L.CER']
+            elif region.startswith('R.'):
+                Ldf.loc[region, :] = Ldf.loc['R.CER', :]
+                Ldf.loc[:, region] = Ldf.loc[:, 'R.CER']
+    
+    # Ensure the region order is the same as in the masks
+    Ldf.fillna(0, inplace=True)
+    Ce_mask_dir = os.path.join(RESOURCES_DIR, 'Masks', f'{atlas}_sero_exc_mask.csv')
+    Ce_mask = pd.read_csv(Ce_mask_dir, index_col=0)
+    Ldf = Ldf.loc[Ce_mask.index, Ce_mask.columns]
+
+    return Ldf
+
