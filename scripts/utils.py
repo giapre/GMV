@@ -1,5 +1,6 @@
 import numpy as np 
 import pandas as pd
+import glob
 import os
 
 PROJECT_DIR = os.path.abspath(os.path.join(os.getcwd(), '..'))
@@ -310,3 +311,63 @@ def adjust_serotonin_lengths(pid, lenghts_file, atlas):
 
     return Ldf
 
+def merge_centile_results(xlsx_files, score, PROCESSED_DIR):
+    """
+    Merging centile csv results in one csv only (male and females together usually)
+    
+    :param xlsx_files: the list of csv files to merge
+    :param score: the centile score (zscre, MAE, prediction...)
+    :param PROCESSED_DIR: where the centile results are
+    """
+    all_dfs = []
+
+    for xlsx_file in xlsx_files:
+
+        xlsx_path = os.path.join(PROCESSED_DIR, f"{xlsx_file}.xlsx")
+        base_name = os.path.splitext(os.path.basename(xlsx_path))[0] + '_centile_results'
+        folder_path = os.path.join(PROCESSED_DIR, base_name)
+
+        if not os.path.isdir(folder_path):
+            print(f"Skipping {base_name}: folder not found")
+            continue
+
+        print(f"Processing {base_name}")
+
+        # ---- Read metadata ----
+        meta_df = pd.read_excel(xlsx_path)
+
+        required_cols = {"SubjectID", "age", "sex"}
+        if not required_cols.issubset(meta_df.columns):
+            raise ValueError(f"{xlsx_path} missing required columns")
+
+        subject_id = meta_df["SubjectID"]
+        age = meta_df["age"]
+        sex = meta_df["sex"]
+
+        # ---- Read z_score CSVs ----
+        score_files = glob.glob(os.path.join(folder_path, f"{score}*.csv"))
+
+        if len(score_files) == 0:
+            print(f"No {score} files in {folder_path}")
+            continue
+
+        for csv_path in score_files:
+            z_df = pd.read_csv(csv_path)
+
+            # Add metadata columns
+            z_df["SubjectID"] = subject_id
+            z_df["age"] = age
+            z_df["sex"] = sex
+
+            all_dfs.append(z_df)
+
+    # ---- Concatenate everything ----
+    if len(all_dfs) == 0:
+        raise RuntimeError("No data collected")
+
+    final_df = pd.concat(all_dfs, ignore_index=True)
+    # Remove useless columns for group scores
+    if score not in ['zscore', 'prediction']:
+        final_df.drop(columns=['age', 'SubjectID'], inplace=True)
+
+    return final_df
