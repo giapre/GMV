@@ -1,0 +1,303 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: eduroam-1-5-109.univ-amu.fr
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job               count
+--------------  -------
+all                   1
+run_simulation       31
+total                32
+
+Select jobs to execute...
+Execute 8 jobs...
+[Mon Feb  9 16:38:36 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2019012101
+    output: results/bold/sub-2019012101_bold.npy
+    jobid: 6
+    reason: Missing output files: results/bold/sub-2019012101_bold.npy
+    wildcards: pid=sub-2019012101
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Mon Feb  9 16:38:36 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015061901
+    output: results/bold/sub-2015061901_bold.npy
+    jobid: 21
+    reason: Missing output files: results/bold/sub-2015061901_bold.npy
+    wildcards: pid=sub-2015061901
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Mon Feb  9 16:38:36 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1857
+    output: results/bold/sub-1857_bold.npy
+    jobid: 14
+    reason: Missing output files: results/bold/sub-1857_bold.npy
+    wildcards: pid=sub-1857
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Mon Feb  9 16:38:36 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015060902
+    output: results/bold/sub-2015060902_bold.npy
+    jobid: 7
+    reason: Missing output files: results/bold/sub-2015060902_bold.npy
+    wildcards: pid=sub-2015060902
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Mon Feb  9 16:38:36 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1279
+    output: results/bold/sub-1279_bold.npy
+    jobid: 22
+    reason: Missing output files: results/bold/sub-1279_bold.npy
+    wildcards: pid=sub-1279
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Mon Feb  9 16:38:36 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1859
+    output: results/bold/sub-1859_bold.npy
+    jobid: 15
+    reason: Missing output files: results/bold/sub-1859_bold.npy
+    wildcards: pid=sub-1859
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Mon Feb  9 16:38:36 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1272
+    output: results/bold/sub-1272_bold.npy
+    jobid: 1
+    reason: Missing output files: results/bold/sub-1272_bold.npy
+    wildcards: pid=sub-1272
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Mon Feb  9 16:38:36 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015052501
+    output: results/bold/sub-2015052501_bold.npy
+    jobid: 30
+    reason: Missing output files: results/bold/sub-2015052501_bold.npy
+    wildcards: pid=sub-2015052501
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+Waiting for more resources.
+Select jobs to execute...
+RuleException:
+CalledProcessError in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 26:
+Command 'set -euo pipefail;  
+        python run_simulation.py             sub-2015061901             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015061901             results/bold/sub-2015061901_bold.npy' returned non-zero exit status 1.
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 21
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015061901
+    output: results/bold/sub-2015061901_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-2015061901             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015061901             results/bold/sub-2015061901_bold.npy
+        
+        (command exited with non-zero exit code)
+RuleException:
+CalledProcessError in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 26:
+Command 'set -euo pipefail;  
+        python run_simulation.py             sub-1857             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1857             results/bold/sub-1857_bold.npy' returned non-zero exit status 1.
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 14
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1857
+    output: results/bold/sub-1857_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-1857             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1857             results/bold/sub-1857_bold.npy
+        
+        (command exited with non-zero exit code)
+RuleException:
+CalledProcessError in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 26:
+Command 'set -euo pipefail;  
+        python run_simulation.py             sub-1272             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1272             results/bold/sub-1272_bold.npy' returned non-zero exit status 1.
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 1
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1272
+    output: results/bold/sub-1272_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-1272             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1272             results/bold/sub-1272_bold.npy
+        
+        (command exited with non-zero exit code)
+RuleException:
+CalledProcessError in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 26:
+Command 'set -euo pipefail;  
+        python run_simulation.py             sub-2015052501             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015052501             results/bold/sub-2015052501_bold.npy' returned non-zero exit status 1.
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 30
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015052501
+    output: results/bold/sub-2015052501_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-2015052501             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015052501             results/bold/sub-2015052501_bold.npy
+        
+        (command exited with non-zero exit code)
+RuleException:
+CalledProcessError in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 26:
+Command 'set -euo pipefail;  
+        python run_simulation.py             sub-2015060902             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015060902             results/bold/sub-2015060902_bold.npy' returned non-zero exit status 1.
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 7
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015060902
+    output: results/bold/sub-2015060902_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-2015060902             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015060902             results/bold/sub-2015060902_bold.npy
+        
+        (command exited with non-zero exit code)
+RuleException:
+CalledProcessError in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 26:
+Command 'set -euo pipefail;  
+        python run_simulation.py             sub-2019012101             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2019012101             results/bold/sub-2019012101_bold.npy' returned non-zero exit status 1.
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 6
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2019012101
+    output: results/bold/sub-2019012101_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-2019012101             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2019012101             results/bold/sub-2019012101_bold.npy
+        
+        (command exited with non-zero exit code)
+RuleException:
+CalledProcessError in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 26:
+Command 'set -euo pipefail;  
+        python run_simulation.py             sub-1859             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1859             results/bold/sub-1859_bold.npy' returned non-zero exit status 1.
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 15
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1859
+    output: results/bold/sub-1859_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-1859             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1859             results/bold/sub-1859_bold.npy
+        
+        (command exited with non-zero exit code)
+RuleException:
+CalledProcessError in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 26:
+Command 'set -euo pipefail;  
+        python run_simulation.py             sub-1279             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1279             results/bold/sub-1279_bold.npy' returned non-zero exit status 1.
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 22
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1279
+    output: results/bold/sub-1279_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-1279             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1279             results/bold/sub-1279_bold.npy
+        
+        (command exited with non-zero exit code)
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look below for error messages
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 6
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2019012101
+    output: results/bold/sub-2019012101_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-2019012101             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2019012101             results/bold/sub-2019012101_bold.npy
+        
+        (command exited with non-zero exit code)
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 21
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015061901
+    output: results/bold/sub-2015061901_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-2015061901             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015061901             results/bold/sub-2015061901_bold.npy
+        
+        (command exited with non-zero exit code)
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 14
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1857
+    output: results/bold/sub-1857_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-1857             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1857             results/bold/sub-1857_bold.npy
+        
+        (command exited with non-zero exit code)
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 7
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015060902
+    output: results/bold/sub-2015060902_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-2015060902             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015060902             results/bold/sub-2015060902_bold.npy
+        
+        (command exited with non-zero exit code)
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 22
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1279
+    output: results/bold/sub-1279_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-1279             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1279             results/bold/sub-1279_bold.npy
+        
+        (command exited with non-zero exit code)
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 15
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1859
+    output: results/bold/sub-1859_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-1859             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1859             results/bold/sub-1859_bold.npy
+        
+        (command exited with non-zero exit code)
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 1
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1272
+    output: results/bold/sub-1272_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-1272             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1272             results/bold/sub-1272_bold.npy
+        
+        (command exited with non-zero exit code)
+[Mon Feb  9 16:38:38 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 30
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015052501
+    output: results/bold/sub-2015052501_bold.npy
+    shell:
+        
+        python run_simulation.py             sub-2015052501             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015052501             results/bold/sub-2015052501_bold.npy
+        
+        (command exited with non-zero exit code)
+Complete log(s): /Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/.snakemake/log/2026-02-09T163836.306886.snakemake.log
+WorkflowError:
+At least one job did not complete successfully.

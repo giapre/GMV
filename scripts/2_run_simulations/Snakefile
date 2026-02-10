@@ -13,19 +13,20 @@ SUBJECTS = [
 
 rule all:
     input:
-        expand(os.path.join(RESULTS_DIR, "{pid}_bold.npy"), pid=SUBJECTS)
-
+        expand(
+            os.path.join(RESULTS_DIR, "{pid}"),
+            pid=SUBJECTS
+        )
 
 rule run_simulation:
     input:
-        lambda wildcards: os.path.join(PATIENTS_DIR, wildcards.pid)
+        lambda wc: os.path.join(PATIENTS_DIR, wc.pid)
     output:
-        os.path.join(RESULTS_DIR, "{pid}_bold.npy")
+        directory(os.path.join(RESULTS_DIR, "{pid}"))
     threads: 1
     shell:
         """
         python run_simulation.py \
             {wildcards.pid} \
-            {input} \
-            {output}
+            {input}
         """

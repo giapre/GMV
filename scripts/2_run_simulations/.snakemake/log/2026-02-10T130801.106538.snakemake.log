@@ -1,0 +1,223 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: eduroam-1-5-96.univ-amu.fr
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job               count
+--------------  -------
+all                   1
+run_simulation       17
+total                18
+
+Select jobs to execute...
+Execute 8 jobs...
+[Tue Feb 10 13:08:01 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015120501
+    output: results/bold/sub-2015120501
+    jobid: 4
+    reason: Missing output files: results/bold/sub-2015120501
+    wildcards: pid=sub-2015120501
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Tue Feb 10 13:08:01 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2019012402
+    output: results/bold/sub-2019012402
+    jobid: 6
+    reason: Missing output files: results/bold/sub-2019012402
+    wildcards: pid=sub-2019012402
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Tue Feb 10 13:08:01 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1861
+    output: results/bold/sub-1861
+    jobid: 8
+    reason: Missing output files: results/bold/sub-1861
+    wildcards: pid=sub-1861
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Tue Feb 10 13:08:01 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1276
+    output: results/bold/sub-1276
+    jobid: 10
+    reason: Missing output files: results/bold/sub-1276
+    wildcards: pid=sub-1276
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Tue Feb 10 13:08:01 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015121001
+    output: results/bold/sub-2015121001
+    jobid: 12
+    reason: Missing output files: results/bold/sub-2015121001
+    wildcards: pid=sub-2015121001
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Tue Feb 10 13:08:01 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015060401
+    output: results/bold/sub-2015060401
+    jobid: 14
+    reason: Missing output files: results/bold/sub-2015060401
+    wildcards: pid=sub-2015060401
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Tue Feb 10 13:08:01 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1863
+    output: results/bold/sub-1863
+    jobid: 16
+    reason: Missing output files: results/bold/sub-1863
+    wildcards: pid=sub-1863
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Tue Feb 10 13:08:01 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1273
+    output: results/bold/sub-1273
+    jobid: 3
+    reason: Missing output files: results/bold/sub-1273
+    wildcards: pid=sub-1273
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+Waiting for more resources.
+Select jobs to execute...
+Waiting at most 5 seconds for missing files:
+results/bold/sub-1863 (missing locally)
+MissingOutputException in rule run_simulation in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 21:
+Job 16  completed successfully, but some output files are missing. Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+results/bold/sub-1863 (missing locally, parent dir contents: )
+Waiting at most 5 seconds for missing files:
+results/bold/sub-1276 (missing locally)
+MissingOutputException in rule run_simulation in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 21:
+Job 10  completed successfully, but some output files are missing. Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+results/bold/sub-1276 (missing locally, parent dir contents: )
+Waiting at most 5 seconds for missing files:
+results/bold/sub-2015060401 (missing locally)
+MissingOutputException in rule run_simulation in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 21:
+Job 14  completed successfully, but some output files are missing. Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+results/bold/sub-2015060401 (missing locally, parent dir contents: )
+Waiting at most 5 seconds for missing files:
+results/bold/sub-2015120501 (missing locally)
+MissingOutputException in rule run_simulation in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 21:
+Job 4  completed successfully, but some output files are missing. Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+results/bold/sub-2015120501 (missing locally, parent dir contents: )
+Waiting at most 5 seconds for missing files:
+results/bold/sub-2015121001 (missing locally)
+MissingOutputException in rule run_simulation in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 21:
+Job 12  completed successfully, but some output files are missing. Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+results/bold/sub-2015121001 (missing locally, parent dir contents: )
+Waiting at most 5 seconds for missing files:
+results/bold/sub-1861 (missing locally)
+MissingOutputException in rule run_simulation in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 21:
+Job 8  completed successfully, but some output files are missing. Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+results/bold/sub-1861 (missing locally, parent dir contents: )
+Waiting at most 5 seconds for missing files:
+results/bold/sub-1273 (missing locally)
+MissingOutputException in rule run_simulation in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 21:
+Job 3  completed successfully, but some output files are missing. Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+results/bold/sub-1273 (missing locally, parent dir contents: )
+Waiting at most 5 seconds for missing files:
+results/bold/sub-2019012402 (missing locally)
+MissingOutputException in rule run_simulation in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 21:
+Job 6  completed successfully, but some output files are missing. Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+results/bold/sub-2019012402 (missing locally, parent dir contents: )
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look below for error messages
+[Tue Feb 10 15:42:46 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 4
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015120501
+    output: results/bold/sub-2015120501
+    shell:
+        
+        python run_simulation.py             sub-2015120501             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015120501
+        
+        (command exited with non-zero exit code)
+[Tue Feb 10 15:42:46 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 6
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2019012402
+    output: results/bold/sub-2019012402
+    shell:
+        
+        python run_simulation.py             sub-2019012402             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2019012402
+        
+        (command exited with non-zero exit code)
+[Tue Feb 10 15:42:46 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 8
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1861
+    output: results/bold/sub-1861
+    shell:
+        
+        python run_simulation.py             sub-1861             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1861
+        
+        (command exited with non-zero exit code)
+[Tue Feb 10 15:42:46 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 10
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1276
+    output: results/bold/sub-1276
+    shell:
+        
+        python run_simulation.py             sub-1276             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1276
+        
+        (command exited with non-zero exit code)
+[Tue Feb 10 15:42:46 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 12
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015121001
+    output: results/bold/sub-2015121001
+    shell:
+        
+        python run_simulation.py             sub-2015121001             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015121001
+        
+        (command exited with non-zero exit code)
+[Tue Feb 10 15:42:46 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 14
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015060401
+    output: results/bold/sub-2015060401
+    shell:
+        
+        python run_simulation.py             sub-2015060401             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015060401
+        
+        (command exited with non-zero exit code)
+[Tue Feb 10 15:42:46 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 16
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1863
+    output: results/bold/sub-1863
+    shell:
+        
+        python run_simulation.py             sub-1863             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1863
+        
+        (command exited with non-zero exit code)
+[Tue Feb 10 15:42:46 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 3
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1273
+    output: results/bold/sub-1273
+    shell:
+        
+        python run_simulation.py             sub-1273             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1273
+        
+        (command exited with non-zero exit code)
+Complete log(s): /Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/.snakemake/log/2026-02-10T130801.106538.snakemake.log
+WorkflowError:
+At least one job did not complete successfully.

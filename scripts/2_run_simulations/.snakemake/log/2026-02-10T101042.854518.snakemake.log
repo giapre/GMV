@@ -1,0 +1,121 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: eduroam-1-5-96.univ-amu.fr
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job               count
+--------------  -------
+all                   1
+run_simulation       22
+total                23
+
+Select jobs to execute...
+Execute 8 jobs...
+[Tue Feb 10 10:10:42 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1860
+    output: results/bold/sub-1860
+    jobid: 6
+    reason: Missing output files: results/bold/sub-1860
+    wildcards: pid=sub-1860
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Tue Feb 10 10:10:42 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1858
+    output: results/bold/sub-1858
+    jobid: 8
+    reason: Missing output files: results/bold/sub-1858
+    wildcards: pid=sub-1858
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Tue Feb 10 10:10:42 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015121001
+    output: results/bold/sub-2015121001
+    jobid: 16
+    reason: Missing output files: results/bold/sub-2015121001
+    wildcards: pid=sub-2015121001
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Tue Feb 10 10:10:42 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2019012402
+    output: results/bold/sub-2019012402
+    jobid: 7
+    reason: Missing output files: results/bold/sub-2019012402
+    wildcards: pid=sub-2019012402
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Tue Feb 10 10:10:42 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1269
+    output: results/bold/sub-1269
+    jobid: 9
+    reason: Missing output files: results/bold/sub-1269
+    wildcards: pid=sub-1269
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Tue Feb 10 10:10:42 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1862
+    output: results/bold/sub-1862
+    jobid: 22
+    reason: Missing output files: results/bold/sub-1862
+    wildcards: pid=sub-1862
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Tue Feb 10 10:10:42 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-1278
+    output: results/bold/sub-1278
+    jobid: 15
+    reason: Missing output files: results/bold/sub-1278
+    wildcards: pid=sub-1278
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+[Tue Feb 10 10:10:42 2026]
+localrule run_simulation:
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2019052302
+    output: results/bold/sub-2019052302
+    jobid: 1
+    reason: Missing output files: results/bold/sub-2019052302
+    wildcards: pid=sub-2019052302
+    resources: tmpdir=/var/folders/65/0rggzw_s3c39y4m504krlw380000gn/T
+
+Waiting for more resources.
+Select jobs to execute...
+RuleException:
+CalledProcessError in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 26:
+Command 'set -euo pipefail;  
+        python run_simulation.py             sub-2015121001             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015121001' returned non-zero exit status 1.
+[Tue Feb 10 10:10:44 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 16
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015121001
+    output: results/bold/sub-2015121001
+    shell:
+        
+        python run_simulation.py             sub-2015121001             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2015121001
+        
+        (command exited with non-zero exit code)
+RuleException:
+CalledProcessError in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 26:
+Command 'set -euo pipefail;  
+        python run_simulation.py             sub-2019052302             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2019052302' returned non-zero exit status 1.
+[Tue Feb 10 10:10:44 2026]
+Error in rule run_simulation:
+    message: None
+    jobid: 1
+    input: /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2019052302
+    output: results/bold/sub-2019052302
+    shell:
+        
+        python run_simulation.py             sub-2019052302             /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2019052302
+        
+        (command exited with non-zero exit code)
+Terminating processes on user request, this might take some time.

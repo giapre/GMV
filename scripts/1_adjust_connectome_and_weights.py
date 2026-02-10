@@ -1,25 +1,27 @@
 import os
 import numpy as np
 from utils import adjust_dopamine_connectome, adjust_serotonine_connectome, adjust_serotonin_lengths
+from paths import Paths
 
-base_dir = "/data3/VBT_SCZ/derivatives/freesurfer"
+base_dir = Paths.DERIVATIVES #"/data3/VBT_SCZ/derivatives/freesurfer"
+RESOURCES_DIR = Paths.RESOURCES
 output_base = os.path.abspath("../data/derivatives")
 atlas = 'dk'
 
 # Loop over subject folders
-for subj in os.listdir(base_dir):
+for subj in ['sub-1271', 'sub-1864']:#os.listdir(base_dir):
 
     if not subj.startswith("sub-"):
         continue
 
-    subj_path = os.path.join(base_dir, subj, "dwi")
+    subj_path = os.path.join(base_dir, subj)
 
     if not os.path.isdir(subj_path):
         print(f"Skipping {subj}: no dwi folder")
         continue
 
     lengths_file = os.path.join(subj_path, "lengths.txt")
-    weights_file = os.path.join(subj_path, "dk_weights.txt")
+    weights_file = os.path.join(subj_path, "weights.txt")
 
     if not (os.path.exists(lengths_file) and os.path.exists(weights_file)):
         print(f"Skipping {subj}: missing files")

@@ -1,0 +1,71 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: eduroam-1-5-109.univ-amu.fr
+Building DAG of jobs...
+Traceback (most recent call last):
+
+  File "/opt/anaconda3/envs/snakemakeenv/lib/python3.13/site-packages/snakemake/cli.py", line 2172, in args_to_api
+    dag_api.execute_workflow(
+    ~~~~~~~~~~~~~~~~~~~~~~~~^
+        executor=args.executor,
+        ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<47 lines>...
+        executor_settings=executor_settings,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+
+  File "/opt/anaconda3/envs/snakemakeenv/lib/python3.13/site-packages/snakemake/api.py", line 606, in execute_workflow
+    workflow.execute(
+    ~~~~~~~~~~~~~~~~^
+        executor_plugin=executor_plugin,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        executor_settings=executor_settings,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        updated_files=updated_files,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+
+  File "/opt/anaconda3/envs/snakemakeenv/lib/python3.13/site-packages/snakemake/workflow.py", line 1225, in execute
+    self._build_dag()
+    ~~~~~~~~~~~~~~~^^
+
+  File "/opt/anaconda3/envs/snakemakeenv/lib/python3.13/site-packages/snakemake/workflow.py", line 1171, in _build_dag
+    async_run(self.dag.init())
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^
+
+  File "/opt/anaconda3/envs/snakemakeenv/lib/python3.13/site-packages/snakemake/common/__init__.py", line 99, in async_run
+    return asyncio.run(coroutine)
+           ~~~~~~~~~~~^^^^^^^^^^^
+
+  File "/opt/anaconda3/envs/snakemakeenv/lib/python3.13/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+
+  File "/opt/anaconda3/envs/snakemakeenv/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+
+  File "/opt/anaconda3/envs/snakemakeenv/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+
+  File "/opt/anaconda3/envs/snakemakeenv/lib/python3.13/site-packages/snakemake/dag.py", line 220, in init
+    await self.file2jobs(file),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/opt/anaconda3/envs/snakemakeenv/lib/python3.13/site-packages/snakemake/dag.py", line 2437, in file2jobs
+    raise MissingRuleException(targetfile)
+          ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+
+  File "/opt/anaconda3/envs/snakemakeenv/lib/python3.13/site-packages/snakemake/exceptions.py", line 418, in __init__
+    f"No rule to produce {fmt_iofile(file)} (if you use input "
+                          ~~~~~~~~~~^^^^^^
+
+  File "/opt/anaconda3/envs/snakemakeenv/lib/python3.13/site-packages/snakemake/io/fmt.py", line 8, in fmt_iofile
+    if f.is_storage:
+       ^^^^^^^^^^^^
+
+AttributeError: 'str' object has no attribute 'is_storage'
+

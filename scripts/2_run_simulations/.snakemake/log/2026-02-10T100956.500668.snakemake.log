@@ -1,0 +1,10 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: eduroam-1-5-96.univ-amu.fr
+Building DAG of jobs...
+MissingInputException in rule run_simulation in file "/Users/giacomopreti/Desktop/VBT/GMV/scripts/2_run_simulations/Snakefile", line 19:
+Missing input files for rule run_simulation:
+    output: results/bold/sub-2019052302_bold.npy
+    wildcards: pid=sub-2019052302_bold.npy
+    affected files:
+        /Users/giacomopreti/Desktop/VBT/GMV/data/derivatives/sub-2019052302_bold.npy

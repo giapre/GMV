@@ -57,6 +57,47 @@ def setup_receptors():
 
     return Rd1, Rd2, Rsero
 
+def setup_ja(zscoresdf, weights, pid, mean, std):
+    """
+    Setup the self-excitation parameter based on regional zscores from centile, 
+    in the same order as the columns of the weights matrix.
+    
+    :param zscoresdf: DataFrame of zscores (rows=patients, columns=regions)
+    :param weights: DataFrame or array of connectome (columns define order)
+    :param pid: patient ID
+    :param mean: scalar or array to sweep
+    :param std: scalar or array to sweep
+    :return: np.ndarray of shape (num_combinations, num_regions)
+    """
+    def rescale_from_zscores(z_scores, mean, std):
+        return mean + std * z_scores
+    
+    # Get patient zscores
+    pid_scores = zscoresdf.loc[int(pid)].drop(index=['age','sex'])
+    
+    # Map pid_scores to weights columns
+    param_vector = pid_scores
+
+    condition = weights.columns.isin(param_vector.index)
+    
+    # If mean/std are arrays (e.g., parameter sweep)
+    mean = np.atleast_1d(mean)
+    std = np.atleast_1d(std)
+    n_comb = len(mean)
+    n_regions = len(weights.columns)
+    
+    filled_matrix = np.zeros((n_comb, n_regions))
+    
+    for i, (m, s) in enumerate(zip(mean, std)):
+        rescaled = rescale_from_zscores(param_vector, mean=m, std=s)
+        # Fill with rescaled where condition is True, 13 otherwise
+        filled_matrix[i, :] = np.where(condition,
+                                       weights.columns.map(rescaled),
+                                       13)
+    filled_matrix[filled_matrix < 0] = 0
+
+    return filled_matrix.reshape(-1,1)
+
 # =============
 # INTEGRATION
 # =============

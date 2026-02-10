@@ -1,12 +1,71 @@
 import numpy as np 
 import pandas as pd
 import glob
+from paths import Paths
 import os
 
-PROJECT_DIR = os.path.abspath(os.path.join(os.getcwd(), '..'))
-RESOURCES_DIR = os.path.join(PROJECT_DIR, 'resources')
+PROJECT_DIR = os.path.abspath(os.path.join(os.getcwd(), '../..'))
+RESOURCES_DIR = Paths.RESOURCES
 
-def prepare_lut(resources_dir=RESOURCES_DIR):
+import os
+import numpy as np
+
+def compact_bold_results(output_dir, means, stds, wes):
+    """
+    Stacks all saved .npy files into a single .npz and saves parameter list.
+    Deletes individual files ONLY after successful save.
+
+    Parameters
+    ----------
+    output_dir : str
+        Directory containing bold .npy files
+    means : array-like
+    stds : array-like
+    wes : array-like
+    """
+
+    bold_list = []
+    param_list = []
+    files_to_delete = []
+
+    for mean in means:
+        for std in stds:
+            fname = os.path.join(output_dir, f"JJa_{mean}_{std}_bold.npy")
+
+            bold = np.load(fname)  # (T, R, n_we)
+            bold_list.append(bold)
+            files_to_delete.append(fname)
+
+            for w_idx in range(bold.shape[2]):
+                param_list.append((mean, std, wes[w_idx]))
+
+    # concatenate along simulation axis
+    bold_all = np.concatenate(bold_list, axis=2)  # (T, R, S)
+    param_list = np.array(param_list)              # (S, 3)
+
+    out_file = os.path.join(output_dir, "JJa_bold_all.npz")
+
+    # ---- save big file ----
+    np.savez(
+        out_file,
+        bold=bold_all,
+        params=param_list,
+    )
+
+    if not os.path.exists(out_file):
+        raise RuntimeError("bold_all.npz was not created. Aborting deletion.")
+
+    # Optional: try loading it to be extra safe
+    _ = np.load(out_file)
+
+    # delete small files
+    for fname in files_to_delete:
+        os.remove(fname)
+
+    return out_file
+
+
+def prepare_fs_default(resources_dir=Paths.RESOURCES):
     """Read and prepare the freesurfer look up table"""
 
     fs_default = pd.read_csv(f'{resources_dir}/fs_default.txt', sep='\s+', comment='#')
@@ -16,6 +75,61 @@ def prepare_lut(resources_dir=RESOURCES_DIR):
     fs_default.drop(index=idx_to_remove, inplace=True)
 
     return fs_default
+
+def prepare_FreeSurferColorLUT(resources_dir=Paths.RESOURCES):
+    
+    lut = pd.read_csv(f'{Paths.RESOURCES}/FreeSurferColorLUT.txt', sep='\s+', comment='#', names=["No", "Region", "R", "G", "B", "A"])
+    return(lut)
+
+
+def get_subcortical_labels(atlas):
+    """
+    Return subcortical regions of the corresponding atlas
+    """
+    if atlas == 'dk':
+        return ['L.CER', 'L.TH', 'L.CA', 'L.PU', 'L.PA', 'L.HI', 'L.AM', 'L.AC',
+                'R.TH', 'R.CA', 'R.PU', 'R.PA', 'R.HI', 'R.AM', 'R.AC', 'R.CER',
+                'L.SN', 'L.VTA', 'L.RN', 'R.SN', 'R.VTA', 'R.RN']
+    elif atlas == 'schaefer':
+        return ['Left-Cerebellum-Cortex', 'Left-Thalamus-Proper', 'Left-Caudate', 'Left-Putamen',
+                'Left-Pallidum', 'Left-Hippocampus', 'Left-Amygdala', 'Left-Accumbens-area',
+                'Right-Cerebellum-Cortex', 'Right-Thalamus-Proper', 'Right-Caudate',
+                'Right-Putamen', 'Right-Pallidum', 'Right-Hippocampus', 'Right-Amygdala',
+                'Right-Accumbens-area', 'Left-Nigra', 'Left-VTA', 'Right-Nigra', 'Right-VTA']
+    elif atlas == 'aal2':
+        return ['Caudate_L', 'Caudate_R', 'Putamen_L', 'Putamen_R', 'Pallidum_L', 'Pallidum_R',
+                'Thalamus_L', 'Thalamus_R', 'Amygdala_L', 'Amygdala_R',
+                'Cerebelum_Crus1_L', 'Cerebelum_Crus1_R', 'Cerebelum_Crus2_L', 'Cerebelum_Crus2_R',
+                'Cerebelum_3_L', 'Cerebelum_3_R', 'Cerebelum_4_5_L', 'Cerebelum_4_5_R',
+                'Cerebelum_6_L', 'Cerebelum_6_R', 'Cerebelum_7b_L', 'Cerebelum_7b_R',
+                'Cerebelum_8_L', 'Cerebelum_8_R', 'Cerebelum_9_L', 'Cerebelum_9_R',
+                'Cerebelum_10_L', 'Cerebelum_10_R',
+                'Vermis_1_2', 'Vermis_3', 'Vermis_4_5', 'Vermis_6', 'Vermis_7', 'Vermis_8',
+                'Vermis_9', 'Vermis_10', 'Nigra_L', 'VTA_L', 'Nigra_R', 'VTA_R']
+    else:
+        raise ValueError(f"Atlas {atlas} not recognized")
+    
+def get_cortical_labels(atlas):
+    """
+    Return cortical labels
+    """
+    fs_default = prepare_fs_default()
+    labels = fs_default['Label']
+    subcortical_labels = get_subcortical_labels(atlas)
+    cortical_labels = [lab for lab in labels if lab not in subcortical_labels]
+
+    return cortical_labels
+
+def get_cortical_indices(atlas):
+    """
+    Return cortical labels
+    """
+    fs_default = prepare_fs_default()
+    fs_default_labels = fs_default['Label'].to_list()
+    cortical_labels = get_cortical_labels(atlas)
+    cortical_indices = [fs_default_labels.index(cortical_label) for cortical_label in cortical_labels]
+
+    return cortical_indices
 
 def get_raw_thickness(RAW_DATA_DIR):
     """Read the thickness csv file for the two haemispheres, concatenate them and assures they have the good shape"""
@@ -178,7 +292,7 @@ def adjust_dopamine_connectome(sub, weights_file, atlas):
 
     # Take the correct labels 
     if atlas == 'dk':
-        lut = prepare_lut()
+        lut = prepare_fs_default()
         regions_labels_default = lut['Label']
         
         weightsdf = pd.DataFrame(data=weights, index=regions_labels_default, columns=regions_labels_default)
@@ -218,7 +332,7 @@ def adjust_dopamine_connectome(sub, weights_file, atlas):
         return
     
     weightsdf.fillna(0, inplace=True)
-    Ce_mask = pd.read_csv(RESOURCES_DIR+f'/Masks/{atlas}_exc_mask.csv', index_col=0)
+    Ce_mask = pd.read_csv(f'{RESOURCES_DIR}/Masks/{atlas}_exc_mask.csv', index_col=0)
     weightsdf = weightsdf.loc[Ce_mask.index, Ce_mask.columns]
     print(f"Connectome for patient {sub} has been adjusted")
     
@@ -272,7 +386,7 @@ def adjust_serotonine_connectome(sub, weights_file, atlas):
                 weightsdf.loc['RN_L', region, ] = row['receptor_density']/10
     
     weightsdf.fillna(0, inplace=True)
-    Ce_mask = pd.read_csv(RESOURCES_DIR+f'/Masks/{atlas}_sero_exc_mask.csv', index_col=0)
+    Ce_mask = pd.read_csv(f'{RESOURCES_DIR}/Masks/{atlas}_sero_exc_mask.csv', index_col=0)
     weightsdf = weightsdf.loc[Ce_mask.index, Ce_mask.columns]
     print(f"Connectome for patient {sub} has been adjusted")
     
@@ -287,7 +401,7 @@ def adjust_serotonin_lengths(pid, lenghts_file, atlas):
     L = np.loadtxt(lenghts_file) # read the file created by the dwi preprocessing pipeline
 
     # create the dataframe using freesurfer default list of regions
-    lut = prepare_lut()
+    lut = prepare_fs_default()
     regions_labels_default = lut['Label']
     Ldf = pd.DataFrame(L, index=regions_labels_default, columns=regions_labels_default)
 
