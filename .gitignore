@@ -1,2 +1,3 @@
+scripts/2_run_simulations/.snakemake/
 results
 data
