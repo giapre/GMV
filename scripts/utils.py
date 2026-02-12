@@ -23,6 +23,11 @@ def compact_bold_results(output_dir, means, stds, wes):
     stds : array-like
     wes : array-like
     """
+    out_file = os.path.join(output_dir, "JJa_bold_all.npz")
+
+    # ---- do nothing if output already exists ----
+    if os.path.exists(out_file):
+        return out_file
 
     bold_list = []
     param_list = []
@@ -43,9 +48,6 @@ def compact_bold_results(output_dir, means, stds, wes):
     bold_all = np.concatenate(bold_list, axis=2)  # (T, R, S)
     param_list = np.array(param_list)              # (S, 3)
 
-    out_file = os.path.join(output_dir, "JJa_bold_all.npz")
-
-    # ---- save big file ----
     np.savez(
         out_file,
         bold=bold_all,

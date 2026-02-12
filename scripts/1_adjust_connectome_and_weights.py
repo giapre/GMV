@@ -9,7 +9,7 @@ output_base = os.path.abspath("../data/derivatives")
 atlas = 'dk'
 
 # Loop over subject folders
-for subj in ['sub-1271', 'sub-1864']:#os.listdir(base_dir):
+for subj in os.listdir(base_dir):
 
     if not subj.startswith("sub-"):
         continue

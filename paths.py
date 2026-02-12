@@ -5,5 +5,8 @@ class Paths:
     DATA = ROOT / "data"
     RESOURCES = ROOT / "resources"
     RESULTS = ROOT / "results"
+    FIGURES = ROOT / "figures"
 
     DERIVATIVES = DATA / "derivatives"
+    DEMOGRAPHICS = DATA / "demographics"
+
