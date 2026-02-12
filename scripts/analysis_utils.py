@@ -142,7 +142,7 @@ def compute_cortical_emp_sim_alff_correlation(emp_res_dir, sim_res_dir):
     emp_res_dir: file with the computed empirical features
     sim_res_dir: file with the computed features from simulations
     """
-    from utils import get_cortical_labels
+    from scripts.utils import get_cortical_labels
     cortical_labels = get_cortical_labels('dk')
     ce_mask = pd.read_csv(f'{Paths.RESOURCES}/Masks/dk_sero_exc_mask.csv', index_col=0)
     used_labels = ce_mask.index.to_list()
@@ -163,7 +163,7 @@ def compute_cortical_emp_sim_falff_correlation(emp_res_dir, sim_res_dir):
     emp_res_dir: file with the computed empirical features
     sim_res_dir: file with the computed features from simulations
     """
-    from utils import get_cortical_labels
+    from scripts.utils import get_cortical_labels
     cortical_labels = get_cortical_labels('dk')
     ce_mask = pd.read_csv(f'{Paths.RESOURCES}/Masks/dk_sero_exc_mask.csv', index_col=0)
     used_labels = ce_mask.index.to_list()
