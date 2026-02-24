@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import os
-from analysis_utils import compute_cortical_emp_sim_alff_correlation, compute_cortical_emp_sim_falff_correlation
+from GMV.scripts.gmv_analysis_utils import compute_cortical_emp_sim_alff_correlation, compute_cortical_emp_sim_falff_correlation
 
 from paths import Paths
 

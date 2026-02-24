@@ -1,5 +1,5 @@
 from scripts.utils import compact_bold_results
-from scripts.analysis_utils import compute_features
+from GMV.scripts.gmv_analysis_utils import compute_features
 import pandas as pd
 import numpy as np
 import os

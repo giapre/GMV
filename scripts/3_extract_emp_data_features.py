@@ -3,12 +3,14 @@ import numpy as np
 import pandas as pd
 import glob
 import os
-from scripts.analysis_utils import compute_features
-from scripts.utils import prepare_fs_default
+from analysis_utils import compute_features
+from utils import prepare_fs_default
+
+type_of_filter = 'traditional'
 
 for pid in os.listdir(Paths.DERIVATIVES):
     pid_dir = os.path.join(Paths.DERIVATIVES, pid)
-    matches = glob.glob(os.path.join(pid_dir, "*_daniela_filtered_bold.npz"))
+    matches = glob.glob(os.path.join(pid_dir, f"*_{type_of_filter}_filtered_bold.npz"))
 
     if not matches:
         # no file → skip
@@ -62,12 +64,15 @@ for pid in os.listdir(Paths.DERIVATIVES):
     overlap = window_size - 1
     emp_fc_ut, emp_fcd_ut, emp_zscored_ALFF, emp_fALFF = compute_features(empirical_bold_to_keep[:,:,None], dt, window_size, overlap)
 
+
     output_dir = os.path.join(Paths.RESULTS, pid)
     os.makedirs(output_dir, exist_ok=True)
-    output_name = f'{output_dir}/emp_results.npz'
+    output_name = f'{output_dir}/{type_of_filter}_full_emp_results.npz'
 
     np.savez(output_name, 
             FC=emp_fc_ut,
             FCD=emp_fcd_ut,
             ALFF=emp_zscored_ALFF,
-            fALFF=emp_fALFF)
+            fALFF=emp_fALFF,
+            ordered_regions=ordered_regions,
+            time_repetition=empirical_tr)
