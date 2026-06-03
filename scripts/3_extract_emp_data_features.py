@@ -3,13 +3,19 @@ import numpy as np
 import pandas as pd
 import glob
 import os
-from analysis_utils import compute_features
+from analysis_utils import compute_features, fcd_variance_excluding_overlap
 from utils import prepare_fs_default
+from plot_utils import plot_signal_and_matrices
 
-type_of_filter = 'traditional'
+type_of_filter = 'aCompCor'
 
-for pid in os.listdir(Paths.DERIVATIVES):
-    pid_dir = os.path.join(Paths.DERIVATIVES, pid)
+DERIVATIVES_DIR = "/data3/VBT_SCZ/derivatives/postprocessing"
+pids = [id for id in os.listdir(DERIVATIVES_DIR) if id.startswith('sub-') and len(id.split('-')[1]) == 4]
+print(pids)
+ses='run-01'
+
+for pid in pids:#in os.listdir(Paths.DERIVATIVES):
+    pid_dir = os.path.join(DERIVATIVES_DIR, pid)
     matches = glob.glob(os.path.join(pid_dir, f"*_{type_of_filter}_filtered_bold.npz"))
 
     if not matches:
@@ -19,6 +25,7 @@ for pid in os.listdir(Paths.DERIVATIVES):
 
     empirical_data = np.load(matches[0])
     empirical_bold = empirical_data['bold']
+    print(f'Bold has shape {empirical_bold.shape}')
     empirical_labels = list(empirical_data['labels'])
     empirical_tr = empirical_data['TimeRepetition']
     # fMRIPrep includes background label (0) but no signal so I remove it
@@ -59,11 +66,18 @@ for pid in os.listdir(Paths.DERIVATIVES):
         ordered_regions.append(region)
 
     empirical_bold_to_keep = empirical_bold[:, ordered_cols]
+    print(f'Now bold has shape {empirical_bold_to_keep.shape}')
     dt = empirical_tr * 1000
-    window_size = int(60 // empirical_tr)
+    window_size = int(20 // empirical_tr)
     overlap = window_size - 1
     emp_fc_ut, emp_fcd_ut, emp_zscored_ALFF, emp_fALFF = compute_features(empirical_bold_to_keep[:,:,None], dt, window_size, overlap)
 
+    triu_idx = np.triu_indices(emp_fc_ut.shape[0], k=1)
+    sim_gbc = np.mean(emp_fc_ut[triu_idx])
+    window_length = int(20//empirical_tr)
+    overlap = window_length - 1
+    sim_var_fcd = fcd_variance_excluding_overlap(emp_fcd_ut, window_length=window_length, overlap=overlap)
+    plot_signal_and_matrices(pid, ses, type_of_filter, empirical_bold_to_keep, emp_fcd_ut[:,:,0], sim_var_fcd[0], emp_fc_ut[:,:,0], sim_gbc, DERIVATIVES_DIR)
 
     output_dir = os.path.join(Paths.RESULTS, pid)
     os.makedirs(output_dir, exist_ok=True)

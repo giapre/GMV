@@ -117,7 +117,7 @@ def compute_features(bold, tr, window_length, overlap):
     """
 
     # --- Z-score per region for FC / FCD ---
-    zscaled_bold = zscore_scale(bold)  # shape (T, R, S)
+    zscaled_bold = bold #zscore_scale(bold)  # shape (T, R, S)
 
     # --- FC ---
     fc = np.corrcoef(zscaled_bold[:,:,0].T)#compute_fc_all(zscaled_bold)  # (R, R, S)
@@ -178,3 +178,18 @@ def compute_cortical_emp_sim_falff_correlation(emp_res_dir, sim_res_dir):
         corr.append(np.corrcoef(sim_alff[cortical_indices, sim], emp_alff[cortical_indices, 0])[0,1])
 
     return np.array(corr)
+
+def fcd_variance_excluding_overlap(sim_fcd, window_length, overlap):
+    import numpy as np
+    step_size = window_length - overlap
+    W = sim_fcd.shape[0]
+    min_sep = int(np.ceil(window_length / step_size))
+    
+    idx = np.arange(W)
+    dist = np.abs(idx[:, None] - idx[None, :])
+    
+    mask = dist >= min_sep
+    
+    vals = sim_fcd[mask, :]
+    
+    return np.var(vals, axis=0)

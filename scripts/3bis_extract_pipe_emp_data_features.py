@@ -7,12 +7,15 @@ import glob
 import pandas as pd
 import numpy as np
 
-type_of_extr = 'traditional_full'
+# Scritp for computing the data features based on the review for the selection of the significant features that can distinguish responders to non responders 
+# They are the same as in synthetic patient
+
+type_of_extr = 'aCompCor50'
 pids_df = []
 
 for pid in os.listdir(Paths.RESULTS):
     pid_dir = os.path.join(Paths.RESULTS, pid)
-    matches = glob.glob(os.path.join(pid_dir, f"{type_of_extr}_emp_results.npz"))
+    matches = glob.glob(os.path.join(pid_dir, f"{type_of_extr}_full_emp_results.npz"))
 
     if not matches:
         # no file → skip
@@ -20,7 +23,7 @@ for pid in os.listdir(Paths.RESULTS):
         continue
 
     print(f'Doing {pid}')
-    feat_file = f"{Paths.RESULTS}/{pid}/{type_of_extr}_emp_results.npz"
+    feat_file = f"{Paths.RESULTS}/{pid}/{type_of_extr}_full_emp_results.npz"
 
     data = np.load(feat_file)
     sim_fc = data['FC']
@@ -33,7 +36,7 @@ for pid in os.listdir(Paths.RESULTS):
 
     triu_idx = np.triu_indices(sim_fc.shape[0], k=1)
     sim_gbc = np.mean(sim_fc[triu_idx])
-    window_length = int(60//tr)
+    window_length = int(20//tr)
     overlap = window_length - 1
     sim_var_fcd = fcd_variance_excluding_overlap(sim_fcd, window_length=window_length, overlap=overlap) #np.var(sim_fcd,axis=0)
 
