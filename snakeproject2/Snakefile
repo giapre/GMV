@@ -1,0 +1,42 @@
+import os
+
+configfile: "config.yaml"
+
+SUBJECTS = config["subjects"]
+we_values = config["we_values"]
+sigma_values = config["sigma_values"]
+Ja_values = config["Ja_values"]
+
+# ------------------------
+# Rule ALL
+# ------------------------
+
+SIM_OUTPUT = os.path.join(
+    "results",
+    "{subject}",
+    "we{we}_sigma{sigma}_Ja{Ja}.npz"
+)
+
+rule all:
+    input:
+        expand(
+            SIM_OUTPUT,
+            subject=SUBJECTS,
+            we=we_values,
+            sigma=sigma_values,
+            Ja=Ja_values
+        )
+
+rule simulate_patient:
+    output:
+        SIM_OUTPUT
+    threads: 4
+    shell:
+        """
+        python run_simulation.py \
+            {wildcards.subject} \
+            {wildcards.we} \
+            {wildcards.sigma} \
+            {wildcards.Ja} \
+            {output}
+        """

@@ -1,3 +1,5 @@
 scripts/2_run_simulations/.snakemake/
 results
 data
+snakeproject2/.snakemake
+snakeproject2/results
